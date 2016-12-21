@@ -43,12 +43,13 @@
     "babel-runtime": ">= 6"
   },
   "files": [
-    "node_package/lib"
+    "node_package/src"
   ],
   "scripts": {
     "test": "babel-tape-runner -r node_package/tests/helpers/test_helper.js node_package/tests/*.js | tap-spec",
     "clean": "rm -rf node_package/lib",
     "prepublish": "npm run build",
+    "postinstall": "node -e \"require('fs').readdir('node_package/lib',function(e){e&&require('child_process').exec('npm run prepublish', function(e){if(e){throw e}})})\"",
     "babel": "babel --out-dir node_package/lib node_package/src",
     "build": "npm run clean && npm run babel",
     "build-watch": "babel --watch --out-dir node_package/lib node_package/src",
